@@ -1,10 +1,12 @@
+# Flags para armazenar os valore saldo e contador de saque
 saldo = 0
 
 contador_de_saque = 3
 
+# lista para adicionar os valores de deposito e saque para exibir no extrato
 extrato = []
 
-# Primeiro: Criar um loop para exibir as opções ao usuário
+# Criar um loop para exibir as opções ao usuário
 while True:
     print("""        Banco Campos - Caixa Eletrônico
           
@@ -35,6 +37,11 @@ while True:
         print(f"\nO valor de R$ {deposito:.2f} foi depósitado a sua conta\nSaldo Atual R$ {saldo:.2f}\n")
         continue
 
+    # elif para direcionar até a 3° opção, primeiro fazer um loop while para rodar caso o usuário digite algo errado
+    # segundo verificar o contador para que o usuário não utrapasse o limite de saques diários
+    # terceiro verificar o valor que o usuário deseja sacar
+    # quarto if para verificar se o saldo condiz com o valor de saque
+    # quinto else caso alguma coisa dê errado
     elif operacao == 3:
         print("\nOPERAÇÃO DE SAQUE\n")
         while True:
