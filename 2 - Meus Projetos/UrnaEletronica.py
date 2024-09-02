@@ -28,12 +28,23 @@ def localizar(dicionarios, localizacao):
           return indice
   return -1
 
+def teste_teclado():
+   for i in range(10):
+      while True:
+        try:
+          teclado = int(input(f"Aperte a tecla {i}: "))
+          if teclado == i:
+            break
+          else:
+            print("Incorreto. Tente novamente!")
+        except ValueError:
+          print("\nERRO!\nValor Não Reconhecido!\n")
 # 4° Seção - Váriaveis
 
 # Menu principal para vizualização somente dos mesários, referente a votação
 menu_principal = """------------------ URNA ELETRÔNICA ------------------
 
-1 - Iniciar Eleição
+1 - Iniciar Voto
 2 - Encerrar Seção
 3 - Configurações
 
@@ -94,55 +105,13 @@ as teclas estão funcionando corretamente
 """
 
 teste_do_teclado = 1
-mesarios_cadastrados = 1
+mesarios_cadastrados = 10
 
 # 4° Seção - Códigos
 
 while True:
     if teste_do_teclado == 1:
-        print(menu_teste_teclado)
-        t0 = int(input("Aperte a tecla 0: "))
-        if t0 == 0:
-          t1 = int(input("Aperte a tecla 1: "))
-          if t1 == 1:
-              t2 = int(input("Aperte a tecla 2: "))
-              if t2 == 2:
-                  t3 = int(input("Aperte a tecla 3: "))
-                  if t3 == 3:
-                      t4 = int(input("Aperte a tecla 4: "))
-                      if t4 == 4:
-                          t5 = int(input("Aperte a tecla 5: "))
-                          if t5 == 5:
-                              t6 = int(input("Aperte a tecla 6: "))
-                              if t6 == 6:
-                                  t7 = int(input("Aperte a tecla 7: "))
-                                  if t7 == 7:
-                                      t8 = int(input("Aperte a tecla 8: "))
-                                      if t8 == 8:
-                                          t9 = int(input("Aperte a tecla 9: "))
-                                          if t9 == 9:
-                                            print("\nTeste do Teclado Concluído\n")
-                                            teste_do_teclado -= 1
-                                          else:
-                                            print("\nVOCÊ DIGITOU A TECLA ERRADA, ESTAMOS REINICIANDO TESTE\n")
-                                      else:
-                                        print("\nVOCÊ DIGITOU A TECLA ERRADA, ESTAMOS REINICIANDO TESTE\n")    
-                                  else:
-                                    print("\nVOCÊ DIGITOU A TECLA ERRADA, ESTAMOS REINICIANDO TESTE\n")        
-                              else:
-                                print("\nVOCÊ DIGITOU A TECLA ERRADA, ESTAMOS REINICIANDO TESTE\n")            
-                          else:
-                            print("\nVOCÊ DIGITOU A TECLA ERRADA, ESTAMOS REINICIANDO TESTE\n")                
-                      else:
-                        print("\nVOCÊ DIGITOU A TECLA ERRADA, ESTAMOS REINICIANDO TESTE\n")                    
-                  else:
-                    print("\nVOCÊ DIGITOU A TECLA ERRADA, ESTAMOS REINICIANDO TESTE\n")                        
-              else:
-                print("\nVOCÊ DIGITOU A TECLA ERRADA, ESTAMOS REINICIANDO TESTE\n")
-          else:
-            print("\nVOCÊ DIGITOU A TECLA ERRADA, ESTAMOS REINICIANDO TESTE\n")
-        else:
-          print("\nVOCÊ DIGITOU A TECLA ERRADA, ESTAMOS REINICIANDO TESTE\n")
+      teste_teclado()    
     else:
       if mesarios_cadastrados == 1:
           print("------------- IDENTIFICAÇÃO DE MESÁRIOS ---------------")
@@ -151,31 +120,68 @@ while True:
           if posicao != -1:
             mesario_encontrado = eleitores_da_secao[posicao]
             print(f"\nNome: {mesario_encontrado['Nome']}\nData de Nascimento: {mesario_encontrado['Data_Nasc']}\nCPF: {mesario_encontrado['CPF']}\nTítulo de Eleitor: {mesario_encontrado['Titulo']}")
-            confirmacao = input("As infommações do mesário acima estão corretar [S/N]: ")
+            confirmacao = input("As infomações do mesário acima estão corretas [S/N]: ")
             if confirmacao.upper() == "S":
               mesario2 = int(input("Digite o Título ou CPF do 2° Mesário: "))
               posicao = localizar(eleitores_da_secao, mesario2)
               if posicao != -1:
                 mesario_encontrado = eleitores_da_secao[posicao]
                 print(f"\nNome: {mesario_encontrado['Nome']}\nData de Nascimento: {mesario_encontrado['Data_Nasc']}\nCPF: {mesario_encontrado['CPF']}\nTítulo de Eleitor: {mesario_encontrado['Titulo']}")
-                confirmacao = input("As infommações do mesário acima estão corretar [S/N]: ")
+                confirmacao = input("As infomações do mesário acima estão corretas [S/N]: ")
                 if confirmacao.upper() == "S":
                   mesarios_cadastrados -= 1
                 elif confirmacao.upper() == "N":
                    continue
               else:
-                print("Mesário não encontrado, tente cadastrá-lo na seção ou verifique as informões.")
+                print("Mesário não encontrado!\nVerifique as informações ou entre em contato com o suporte do TRE")
             elif confirmacao.upper() == "N":
               continue
           else:
-              print("Mesário não encontrado, tente cadastrá-lo na seção ou verifique as informões.")
+              print("Mesário não encontrado!\nVerifique as informações ou entre em contato com o suporte do TRE")
       else:
           print(menu_principal)
           opcao = int(input("\nDigite uma das opções acima: "))
           match opcao:
               case 1:
-                print("Você digitou 1")
-                break
+                eleitor = input("Didite o CPF ou Título do Eleitor: ")
+                if len(eleitor) == 11 or len(eleitor) == 12:
+                   posicao = localizar(eleitores_da_secao, eleitor)
+                   if posicao != 1:
+                    eleitor_encontrado = eleitores_da_secao[posicao]
+                    print(f"\nNome: {eleitor_encontrado['Nome']}\nData de Nascimento: {eleitor_encontrado['Data_Nasc']}\nCPF: {eleitor_encontrado['CPF']}\nTítulo de Eleitor: {eleitor_encontrado['Titulo']}")
+                    confirmacao = input("As infomações do elitor acima estão corretas [S/N]: ")
+                    if confirmacao.upper() == "S":
+                       while True:
+                        print("\n------------------ URNA ELETRÔNICA ------------------\n------------------ PREFEITO ------------------\n")
+                        voto = int(input("Digite o número do candidato ou 0 para votar em branco: "))
+                        if len(voto) == 2:
+                            posicao = localizar(candidados, voto)
+                            if posicao != 1:
+                               candidato_encontrado = candidados[posicao]
+                               print(f"\nNome: {candidato_encontrado['Nome']}\nPartido: {candidato_encontrado['Partido']}\nLema: {candidato_encontrado['Lema']}\n")
+                               confirmacao = int(input("As infomações do candidato acima estão corretas:\n1 - Confirmar\n2 - Corrigir "))
+                               match confirmacao:
+                                case 1:
+                                    votos_candidatos[candidato_encontrado['Nome']] += 1
+                                    print("\nVOTO CONFIRMADO!\n")
+                                    break
+                                case 2:
+                                    continue
+                        elif voto == 0:
+                           votos_candidatos['Votos_Branco']
+                           print("\nVOTO EM BRANCO CONFIRMADO!\n")
+                           break
+                        else:
+                           print("\nERRO! TENTE NOVAMENTE!\n")
+                           continue
+                        print("------------------ ELEIÇÕES - 2024 -------------------")  
+                    elif confirmacao.upper() == "N":
+                        continue
+                else:
+                   print("Eleitor não encontrado!\nVerifique as informações ou entre em contato com o suporte do TRE")
+                        
+
+                
               case 2:
                 print("Você digitou 2")
                 break
