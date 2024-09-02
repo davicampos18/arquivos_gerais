@@ -20,7 +20,7 @@ num1 = float(input("Digite o primeiro número: "))
 num2 = float(input("Digite o segundo número: "))
 num3 = float(input("Digite o terceiro número: "))
 
-print(maior_numero(num1, num2, num3))
+print(f"O maior número é {maior_numero(num1, num2, num3)}")
 
 
 """Mesma Função Ternário"""
@@ -34,7 +34,7 @@ print(maior_numero(num1, num2, num3))
 # num2 = float(input("Digite o segundo número: "))
 # num3 = float(input("Digite o terceiro número: "))
 
-# print(maior_numero(num1, num2, num3))
+# print(f"O maior número é {maior_numero(num1, num2, num3)}")
 
 """Mesma Função Simplificada"""
 
@@ -43,4 +43,4 @@ print(maior_numero(num1, num2, num3))
 #     """
 #     return max(num1, num2, num3)
 
-# print(maior_numero(num1, num2, num3))
+# print(f"O maior número é {maior_numero(num1, num2, num3)}")
