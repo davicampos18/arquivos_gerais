@@ -72,43 +72,57 @@ candidatos_vereador = [
 
 # Lista de dicionários para armazenar o nome e a quantidade de votos do candidato
 # Aqui também será exibido os votos brancos e nulos
-votos_candidatos = [{"Número": '12', "Nome": "Carlos Silva", "Voto":0},
-    {"Número": '23', "Nome": "Ana Pereira", "Voto":0},
-    {"Número": '34', "Nome": "João Souza", "Voto":0},
-    {"Número": '45', "Nome": "Mariana Lopes", "Voto":0},
-    {"Número": '56', "Nome": "Ricardo Santos", "Voto":0},
-    {"Número": '67', "Nome": "Luciana Almeida", "Voto":0},
-    {"Número": '78', "Nome": "Fernando Costa", "Voto":0},
-    {"Número": '10001', "Nome": "Beatriz Moura", "Voto":0},
-    {"Número": '10002', "Nome": "Pedro Henrique", "Voto":0},
-    {"Número": '10003', "Nome": "Juliana Oliveira", "Voto":0},
-    {"Número": '10004', "Nome": "Felipe Gonçalves", "Voto":0},
-    {"Número": '10005', "Nome": "Camila Rocha", "Voto":0},
-    {"Número": '10006', "Nome": "Rafael Martins", "Voto":0},
-    {"Número": '10007', "Nome": "Gabriela Lima", "Voto":0},
-    {"Número": '10008', "Nome": "Lucas Ferreira", "Voto":0},
-    {"Número": '10009', "Nome": "Fernanda Alves", "Voto":0},
-    {"Número": '10010', "Nome": "Daniel Costa", "Voto":0},
-    {"Número": '10011', "Nome": "Isabela Teixeira", "Voto":0},
-    {"Número": '10012', "Nome": "Vinícius Ramos", "Voto":0},
-    {"Número": '10013', "Nome": "Larissa Carvalho", "Voto":0},
-    {"Número": '10014', "Nome": "Thiago Nascimento", "Voto":0},
-    {"Número": '10015', "Nome": "Paula Ribeiro", "Voto":0}
+votos_candidatos = [{"Número": '12', "Nome": "Carlos Silva", "Voto": [0]},
+    {"Número": '23', "Nome": "Ana Pereira", "Voto": [0]},
+    {"Número": '34', "Nome": "João Souza", "Voto": [0]},
+    {"Número": '45', "Nome": "Mariana Lopes", "Voto": [0]},
+    {"Número": '56', "Nome": "Ricardo Santos", "Voto": [0]},
+    {"Número": '67', "Nome": "Luciana Almeida", "Voto": [0]},
+    {"Número": '78', "Nome": "Fernando Costa", "Voto": [0]},
+    {"Número": '10001', "Nome": "Beatriz Moura", "Voto": [0]},
+    {"Número": '10002', "Nome": "Pedro Henrique", "Voto": [0]},
+    {"Número": '10003', "Nome": "Juliana Oliveira", "Voto": [0]},
+    {"Número": '10004', "Nome": "Felipe Gonçalves", "Voto": [0]},
+    {"Número": '10005', "Nome": "Camila Rocha", "Voto": [0]},
+    {"Número": '10006', "Nome": "Rafael Martins", "Voto": [0]},
+    {"Número": '10007', "Nome": "Gabriela Lima", "Voto": [0]},
+    {"Número": '10008', "Nome": "Lucas Ferreira", "Voto": [0]},
+    {"Número": '10009', "Nome": "Fernanda Alves", "Voto": [0]},
+    {"Número": '10010', "Nome": "Daniel Costa", "Voto": [0]},
+    {"Número": '10011', "Nome": "Isabela Teixeira", "Voto": [0]},
+    {"Número": '10012', "Nome": "Vinícius Ramos", "Voto": [0]},
+    {"Número": '10013', "Nome": "Larissa Carvalho", "Voto": [0]},
+    {"Número": '10014', "Nome": "Thiago Nascimento", "Voto": [0]},
+    {"Número": '10015', "Nome": "Paula Ribeiro", "Voto": [0]}
 ]
 
 # Lista de dicionários para armazenar o nome do partido e a quantidade de votos por partido
 votos_por_partido = []
 
+# Lista de dicionários para armazenar as infromações dos mesários e emitir a declaração de comparecimento
+mesarios = []
+
+# Lista de dicionários para armazenar os eleitores que já votaram
+eleitores_que_votaram = []
+
 # 3° Seção - Funções
 
 # def para localizar informações no banco de dados
 def localizar(dicionarios, localizacao):
-  for indice, informacao in enumerate(dicionarios):
-      if localizacao.lower() in [value.lower() for value in informacao.values()]:
-          return indice
-  return -1
+    for indice, informacao in enumerate(dicionarios):
+        for valor in informacao.values():
+            if isinstance(valor, str) and localizacao.lower() == valor.lower():
+                return indice
+    return -1
+
+def teste_localizar(banco_de_dados, valor_a_ser_encontrado):
+   for i in (banco_de_dados):
+      for chave, valor in i.items():
+         if valor == valor_a_ser_encontrado:
+            return banco_de_dados.index(i)
 
 def teste_teclado():
+   print("\n------------------ URNA ELETRÔNICA ------------------\n----------------- TESTE DO TECLADO ------------------")
    for i in range(10):
       while True:
         try:
@@ -123,13 +137,11 @@ def teste_teclado():
 # 4° Seção - Váriaveis
 
 # Menu principal para vizualização somente dos mesários, referente a votação
-menu_principal = """------------------ URNA ELETRÔNICA ------------------
+menu_principal = """------------------ URNA ELETRÔNICA -------------------
 
 1 - Iniciar Voto
 2 - Encerrar Seção
 3 - Configurações
-
------------------- ELEIÇÕES - 2024 -------------------
 """
 # Menu de configuração exibido somente para os mesários, para cadastrar/alterar eleitores, candidatos, partidos, zerar urna
 menu_configuracao = """------------------- CONFIGURAÇÕES --------------------
@@ -141,8 +153,6 @@ menu_configuracao = """------------------- CONFIGURAÇÕES --------------------
 
 ------------------- ELEIÇÕES - 2024 -------------------
 """
-
-
 # Menu comum a todos, confirmação, anular
 menu_comum = """--------- ELEITOR DIGITE UMA DAS APÇÕES ABAIXO --------
 
@@ -189,12 +199,12 @@ mesarios_cadastrados = 1
 # 4° Seção - Códigos
 
 while True:
-    if teste_do_teclado == 1:
+    if teste_do_teclado == 1: 
       teste_teclado()
       teste_do_teclado -= 1
     elif teste_do_teclado == 0:
       if mesarios_cadastrados == 1:
-          print("\n------------- IDENTIFICAÇÃO DE MESÁRIOS ---------------\n")
+          print("\n------------- IDENTIFICAÇÃO DE MESÁRIOS --------------\n")
           mesario1 = input("Digite o Título ou CPF do 1° Mesário: ")
           posicao = localizar(eleitores_da_secao, mesario1)
           if posicao != -1:
@@ -202,6 +212,8 @@ while True:
             print(f"\nNome: {mesario_encontrado['Nome']}\nData de Nascimento: {mesario_encontrado['Data_Nasc']}\nCPF: {mesario_encontrado['CPF']}\nTítulo de Eleitor: {mesario_encontrado['Titulo_Eleitor']}")
             confirmacao = input("\nAs infomações do mesário acima estão corretas [S/N]: ")
             if confirmacao.upper() == "S":
+              mesario = {'Nome':mesario_encontrado['Nome'], 'Data_Nasc':mesario_encontrado['Data_Nasc'], 'CPF':mesario_encontrado['CPF'], 'Titulo':mesario_encontrado['Titulo_Eleitor']}
+              mesarios.append(mesario)
               mesario2 = input("\nDigite o Título ou CPF do 2° Mesário: ")
               posicao = localizar(eleitores_da_secao, mesario2)
               if posicao != -1:
@@ -209,6 +221,8 @@ while True:
                 print(f"\nNome: {mesario_encontrado['Nome']}\nData de Nascimento: {mesario_encontrado['Data_Nasc']}\nCPF: {mesario_encontrado['CPF']}\nTítulo de Eleitor: {mesario_encontrado['Titulo_Eleitor']}")
                 confirmacao = input("\nAs infomações do mesário acima estão corretas [S/N]: ")
                 if confirmacao.upper() == "S":
+                  mesario = {'Nome':mesario_encontrado['Nome'], 'Data_Nasc':mesario_encontrado['Data_Nasc'], 'CPF':mesario_encontrado['CPF'], 'Titulo':mesario_encontrado['Titulo_Eleitor']}
+                  mesarios.append(mesario)
                   mesarios_cadastrados -= 1
                   print("\n------------------ ELEIÇÕES - 2024 -------------------\n")
                 elif confirmacao.upper() == "N":
@@ -221,11 +235,11 @@ while True:
               print("\nMesário não encontrado!\nVerifique as informações ou entre em contato com o suporte do TRE\n")
       else:
           print(menu_principal)
-          opcao = int(input("\nDigite uma das opções acima: "))
+          opcao = int(input("Digite uma das opções acima: "))
           print("------------------- ELEIÇÕES - 2024 -------------------")
           match opcao:
               case 1:
-                print("\n------------------ URNA ELETRÔNICA ------------------\n")
+                print("\n------------------- URNA ELETRÔNICA -------------------\n")
                 eleitor = input("Digite o CPF ou Título do Eleitor: ")
                 if len(eleitor) == 11 or len(eleitor) == 12:
                    posicao = localizar(eleitores_da_secao, eleitor)
@@ -235,19 +249,25 @@ while True:
                     confirmacao = input("\nAs infomações do elitor acima estão corretas [S/N]: ")
                     if confirmacao.upper() == "S":
                        while True:
-                        print("\n------------------ URNA ELETRÔNICA ------------------\n---------------------- PREFEITO ---------------------\n")
+                        print("\n------------------- URNA ELETRÔNICA -------------------\n----------------------- PREFEITO ----------------------\n")
                         voto = input("Digite o número do candidato ou 0 para votar em branco: ")
                         if len(voto) == 2:
                             posicao = localizar(candidatos_prefeito, voto)
                             if posicao != 1:
                                candidato_encontrado = candidatos_prefeito[posicao]
                                print(f"\nCandidato(a): {candidato_encontrado['Nome']}\nPartido: {candidato_encontrado['Partido']}\nLema: {candidato_encontrado['Lema']}\n")
-                               confirmacao = int(input("As infomações do candidato acima estão corretas:\n1 - Confirmar\n2 - Corrigir\n-->>"))
+                               confirmacao = int(input("As infomações do candidato acima estão corretas:\n1 - Confirmar\n2 - Corrigir\n -->> "))
                                match confirmacao:
                                   case 1:
                                     posicao = localizar(votos_candidatos, voto)
                                     candidato_encontrado = votos_candidatos[posicao]
-                                    votos_candidatos[candidato_encontrado['Voto']] += 1
+                                    votos_list = candidato_encontrado['Voto']
+                                    if votos_list == None:
+                                      votos_list.append(1)
+                                    else:
+                                       votos_list[0] += 1
+                                    eleitor_voto = {'Nome':eleitor_encontrado['Nome'], 'Data_Nasc':eleitor_encontrado['Data_Nasc'], 'CPF':eleitor_encontrado['CPF'], 'Titulo':eleitor_encontrado['Titulo_Eleitor']}
+                                    eleitores_que_votaram.append(eleitor_voto)
                                     print("\nVOTO CONFIRMADO!\n")
                                     break
                                   case 2:
@@ -259,35 +279,7 @@ while True:
                         else:
                            print("\nERRO! TENTE NOVAMENTE!\n")
                            continue
-                        while True:
-                          print("\n------------------ URNA ELETRÔNICA ------------------\n------------------ VEREADOR ------------------\n")
-                          voto = int(input("Digite o número do candidato ou 0 para votar em branco: "))
-                          if len(voto) == 2:
-                              posicao = localizar(candidatos_vereador, voto)
-                              if posicao != 1:
-                                candidato_encontrado = candidatos_vereador[posicao]
-                                print(f"\nCandidato(a): {candidato_encontrado['Nome']}\nPartido: {candidato_encontrado['Partido']}\nLema: {candidato_encontrado['Lema']}\n")
-                                confirmacao = input("As infomações do candidato acima estão corretas:\n1 - Confirmar\n2 - Corrigir\n-->>")
-                                match confirmacao:
-                                  case 1:
-                                    posicao = localizar(votos_candidatos, voto)
-                                    candidato_encontrado = votos_candidatos[posicao]
-                                    votos_candidatos[candidato_encontrado['Voto']] += 1
-                                    print("\nVOTO CONFIRMADO!\n")
-                                    break
-                                  case 2:
-                                      continue
-                          elif voto == 0:
-                            votos_candidatos['Votos_Branco']
-                            print("\nVOTO EM BRANCO CONFIRMADO!\n")
-                            break
-                          else:
-                            print("\nERRO! TENTE NOVAMENTE!\n")
-                            continue
                         
-                        print("------------------ ELEIÇÕES - 2024 -------------------\n")  
-                    elif confirmacao.upper() == "N":
-                        continue
                 else:
                    print("Eleitor não encontrado!\nVerifique as informações ou entre em contato com o suporte do TRE")
                         
@@ -295,7 +287,9 @@ while True:
                 
               case 2:
                 print("Você digitou 2")
-                print(votos_candidatos)
+                print("\n"+tabulate(mesarios, headers="keys", tablefmt="grid")+"\n")
+                print("\n"+tabulate(votos_candidatos, headers="keys", tablefmt="grid")+"\n")
+                print("\n"+tabulate(eleitores_que_votaram, headers="keys", tablefmt="grid")+"\n")
                 break
               case 3:
                 print("Você digitou 3")
@@ -304,3 +298,41 @@ while True:
                 print("Você digitou 4")
                 break
 
+# Próxima atualização: 
+# Bloquear para que o mesmo mesário não seja cadastrado 2 vezes, o mesmo para o eletor não votar duas vezes
+# Logo após o cadastro dos mesários emitir as zerezimas
+# Adicionar a seção de voto para vereadores
+
+# while True:
+#                           print("\n------------------ URNA ELETRÔNICA ------------------\n------------------ VEREADOR ------------------\n")
+#                           voto = input("Digite o número do candidato ou 0 para votar em branco: ")
+#                           if len(voto) == 2:
+#                               posicao = localizar(candidatos_vereador, voto)
+#                               if posicao != 1:
+#                                 candidato_encontrado = candidatos_vereador[posicao]
+#                                 print(f"\nCandidato(a): {candidato_encontrado['Nome']}\nPartido: {candidato_encontrado['Partido']}\nLema: {candidato_encontrado['Lema']}\n")
+#                                 confirmacao = input("As infomações do candidato acima estão corretas:\n1 - Confirmar\n2 - Corrigir\n -->> ")
+#                                 match confirmacao:
+#                                   case 1:
+#                                     posicao = localizar(votos_candidatos, voto)
+#                                     candidato_encontrado = votos_candidatos[posicao]
+#                                     votos_list = candidato_encontrado['Voto']
+#                                     if votos_list == None:
+#                                       votos_list.append(1)
+#                                     else:
+#                                        votos_list[0] += 1
+#                                     print("\nVOTO CONFIRMADO!\n")
+#                                     break
+#                                   case 2:
+#                                       continue
+#                           elif voto == 0:
+#                             votos_candidatos['Votos_Branco']
+#                             print("\nVOTO EM BRANCO CONFIRMADO!\n")
+#                             break
+#                           else:
+#                             print("\nERRO! TENTE NOVAMENTE!\n")
+#                             continue
+                        
+#                         print("------------------ ELEIÇÕES - 2024 -------------------\n")  
+#                     elif confirmacao.upper() == "N":
+#                         continue
