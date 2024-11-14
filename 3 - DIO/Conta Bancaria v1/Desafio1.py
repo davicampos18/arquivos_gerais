@@ -1,4 +1,4 @@
-# Flags para armazenar os valore saldo e contador de saque
+# Flags para armazenar o valor do saldo e contador de saque
 saldo = 0
 
 contador_de_saque = 3
@@ -18,7 +18,7 @@ while True:
 """)
     operacao = int(input("Digite uma das opções acima (Apenas número): "))
 
-    # if para direcionar a 1° opção, criar um for para iterar sobre a minha tupla, logo após criar um if para verificar se o valor é positivo, se sim é um valor depósitado
+    # if para direcionar a 1° opção, criar um for para iterar sobre a minha lista, logo após criar um if para verificar se o valor é positivo, se sim é um valor depósitado
     # criar um elif para verificar se o valor é negativo, se sim é um valor de saque
     if operacao == 1:
         print("\nEXTRATO\n")
