@@ -18,7 +18,7 @@ def criar_tarefas(id, nome_da_tarefa, descricao, categoria, prioridade, banco_de
         "Status":f"{"Em andamento" if status == False else "Concluído"}"
     })
 
-    print("Tarefa Cadsatrada com Sucesso!")
+    print("Tarefa Cadastrada com Sucesso!")
 
 
 def localizar_tarefa(id:int, banco_de_dados:list):
